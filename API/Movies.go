@@ -10,6 +10,10 @@ import (
 	"strconv"
 )
 
+func EnableCors(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+}
+
 func HomePage(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
