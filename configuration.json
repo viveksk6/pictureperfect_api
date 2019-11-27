@@ -1,0 +1,7 @@
+{
+  "userName": "clumio",
+  "password": "qwerty123",
+  "endpoint": "127.0.0.1",
+  "port": "3306",
+  "dbName": "pictureperfect"
+}
