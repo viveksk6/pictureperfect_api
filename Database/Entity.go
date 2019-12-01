@@ -10,4 +10,11 @@ type MovieDetails struct {
 	Certificate string `json:"certificate"`
 }
 
+type ReviewDetails struct {
+	MovieId int `json:"movieId"`
+	UserId int `json:"userId"`
+	Rating float64 `json:"rating"`
+	Review string `json:"review"`
+}
+
 //func (mv *MovieDetails) QueryDb(pageNo string, pageSize string, movieDetails []MovieDetails) []MovieDetails

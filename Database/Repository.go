@@ -7,7 +7,11 @@ import (
 
 
 type Repository interface {
+	ConnectDb() *sql.DB
 	FetchAllMovies(pageNo string, pageSize string) []MovieDetails
 	FetchMovieById(movieId string, movieDetails []MovieDetails)  []MovieDetails
-	ConnectDb() *sql.DB
+	InsertRating(review ReviewDetails)
+	FetchUserRating(movieId string, userId string)  ReviewDetails
+	DeleteUserRating(movieId string, userId string)
+	FetchRating(movieId string)  ReviewDetails
 }

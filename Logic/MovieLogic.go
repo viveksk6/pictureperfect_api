@@ -13,3 +13,26 @@ func GetMovieById(movieId string)  []Database.MovieDetails{
 	movieDetails:=db.FetchMovieById(movieId)
 	return movieDetails
 }
+
+func AddRating(review Database.ReviewDetails)  {
+	db:=Database.GetMovieRepo()
+	db.InsertRating(review)
+}
+
+func ReturnUserRating(movieId string, userId string) Database.ReviewDetails  {
+	db:=Database.GetMovieRepo()
+	rating:=db.FetchUserRating(movieId, userId)
+	return  rating
+}
+
+func DeleteUserRating(movieId string, userId string)   {
+	db:=Database.GetMovieRepo()
+	db.DeleteUserRating(movieId, userId)
+
+}
+
+func ReturnRating(movieId string) Database.ReviewDetails  {
+	db:=Database.GetMovieRepo()
+	rating:=db.FetchRating(movieId)
+	return  rating
+}
