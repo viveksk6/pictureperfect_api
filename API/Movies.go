@@ -11,16 +11,60 @@ import (
 	"strconv"
 )
 
+type Credentials struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+
+}
+
 func EnableCors(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 }
 
 func HomePage(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
-
 	fmt.Fprintf(w, "Welcome to the HomePage!")
 	fmt.Println("Endpoint Hit: homePage")
+}
+
+func Login(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	fmt.Println("Endpoint Hit: Login")
+	data, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		panic(err)
+	}
+
+	var creds Credentials
+	json.Unmarshal(data, &creds)
+	tokenString, expirationTime, er:=Logic.GenerateJWT(creds.Username,creds.Password)
+	if er==http.StatusUnauthorized{
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	if er == http.StatusInternalServerError{
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	http.SetCookie(w, &http.Cookie{
+		Name:    "token",
+		Value:   tokenString,
+		Expires: expirationTime,
+	})
+}
+
+func PostMovie(w http.ResponseWriter, r *http.Request){
+	fmt.Println("Endpoint Hit: Add Movie")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	var movie Database.MovieDetails
+	data, err := ioutil.ReadAll(r.Body)
+	//fmt.Printf()
+	if err != nil {
+		panic(err)
+	}
+	json.Unmarshal(data, &movie)
+	Logic.AddMovie(movie)
 }
 
 func ReturnAllMovies(w http.ResponseWriter, r *http.Request){

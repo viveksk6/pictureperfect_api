@@ -41,6 +41,20 @@ func GetMovieRepo() *SQLRepo {
 	}
 }
 
+func (s *SQLRepo)ValidateCred(userId string, password string) (int,string) {
+	results,err:=s.db.Query("Select role from users where userId = ? and password = ?",userId,password)
+	if err!= nil{
+		panic(err.Error())
+	}
+	re:=0
+	var role string
+	for results.Next() {
+		re++
+		results.Scan(&role)
+	}
+	return re, role
+}
+
 func (s *SQLRepo)FetchAllMovies(pageNo string, pageSize string) []MovieDetails {
 	var movieDetails []MovieDetails
 	//sqlr.db := ConnectDb()
@@ -81,6 +95,13 @@ func (s *SQLRepo)FetchMovieById(movieId string)  []MovieDetails{
 		movieDetails = append(movieDetails, md)
 	}
 	return movieDetails
+}
+
+func (s *SQLRepo)InsertMovie(movie MovieDetails)  {
+	_, err := s.db.Exec("INSERT into movies (title, summary, genre, img, language, certificate) values (?, ?, ?, ?, ?, ?)", movie.Title, movie.Summary, movie.Genre, movie.Img, movie.Language, movie.Certificate)
+	if err!= nil {
+		panic(err.Error())
+	}
 }
 
 func (s *SQLRepo)InsertRating(review ReviewDetails){
