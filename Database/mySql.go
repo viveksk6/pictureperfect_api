@@ -59,7 +59,7 @@ func (s *SQLRepo)FetchAllMovies(pageNo string, pageSize string) []MovieDetails {
 	var movieDetails []MovieDetails
 	//sqlr.db := ConnectDb()
 	//defer sqlr.db.Close()
-	q := "SELECT movieId, title, summary, genre, img, language, certificate from movies limit "
+	q := "SELECT ID, title, summary, genre, img, language, certificate from movies limit "
 	qstring := q + pageNo + "," + pageSize
 	results, err := s.db.Query(qstring)
 	if err != nil {
@@ -68,7 +68,7 @@ func (s *SQLRepo)FetchAllMovies(pageNo string, pageSize string) []MovieDetails {
 	for results.Next() {
 		var md MovieDetails
 
-		err = results.Scan(&md.MovieId, &md.Title,  &md.Summary, &md.Genre, &md.Img, &md.Language, &md.Certificate)
+		err = results.Scan(&md.ID, &md.Title,  &md.Summary, &md.Genre, &md.Img, &md.Language, &md.Certificate)
 		if err != nil {
 			panic(err.Error()) // proper error handling instead of panic in your app
 		}
@@ -79,7 +79,7 @@ func (s *SQLRepo)FetchAllMovies(pageNo string, pageSize string) []MovieDetails {
 
 func (s *SQLRepo)FetchMovieById(movieId string)  []MovieDetails{
 	var movieDetails []MovieDetails
-	q := "SELECT movieId, title, summary, genre, img, language, certificate from movies where movieId = "
+	q := "SELECT ID, title, summary, genre, img, language, certificate from movies where ID= "
 	qstring := q + "'" + movieId + "'"
 	results, err := s.db.Query(qstring)
 	if err != nil {
@@ -88,7 +88,7 @@ func (s *SQLRepo)FetchMovieById(movieId string)  []MovieDetails{
 	for results.Next() {
 		var md MovieDetails
 
-		err = results.Scan(&md.MovieId, &md.Title,  &md.Summary, &md.Genre, &md.Img, &md.Language, &md.Certificate)
+		err = results.Scan(&md.ID, &md.Title,  &md.Summary, &md.Genre, &md.Img, &md.Language, &md.Certificate)
 		if err != nil {
 			panic(err.Error()) // proper error handling instead of panic in your app
 		}

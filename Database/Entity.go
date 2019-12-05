@@ -1,7 +1,7 @@
 package Database
 
 type MovieDetails struct {
-	MovieId   int    `json:"movieId"`
+	ID   int    `json:"ID"`
 	Title string `json:"title"`
 	Summary string `json:"summary"`
 	Genre string `json:"genre"`
